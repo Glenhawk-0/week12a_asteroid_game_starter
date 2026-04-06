@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flame/components.dart';
+import 'package:flame/collisions.dart';
 
 ///
 /// Asteroid Sprite
@@ -9,8 +10,11 @@ import 'package:flame/components.dart';
 /// The position and velocity are randomized.
 /// The update method ensures the asteroid stays on screen and bounces off the walls.
 ///
+///
+///
 
-class Asteroid extends SpriteComponent with HasGameReference {
+class Asteroid extends SpriteComponent
+    with HasGameReference, CollisionCallbacks {
   late Vector2 velocity;
 
   // All asteroids are the same size
@@ -29,8 +33,13 @@ class Asteroid extends SpriteComponent with HasGameReference {
       Random().nextDouble() * game.size.y,
     );
     size = Vector2(asteroidSize, asteroidSize);
-    velocity =
-        Vector2(Random().nextDouble() * 200, Random().nextDouble() * 200);
+    velocity = Vector2(
+      Random().nextDouble() * 200,
+      Random().nextDouble() * 200,
+    );
+
+    // Add a circular hitbox for collision detection
+    add(CircleHitbox());
   }
 
   //
@@ -46,6 +55,28 @@ class Asteroid extends SpriteComponent with HasGameReference {
     }
     if (position.x < 0 || position.x > game.size.x) {
       velocity = Vector2(-velocity.x, velocity.y);
+    }
+  }
+
+  @override
+  void onCollisionStart(Set<Vector2> points, PositionComponent other) {
+    super.onCollisionStart(points, other);
+
+    if (other is Asteroid) {
+      // Get the direction from this asteroid to the other
+      final normal = (other.position - position).normalized();
+
+      // Calculate relative velocity
+      final relativeVelocity = velocity - other.velocity;
+
+      // How much velocity is along the collision axis
+      final impulse = relativeVelocity.dot(normal);
+
+      // Only bounce if asteroids are moving toward each other
+      if (impulse > 0) {
+        velocity -= normal * impulse;
+        other.velocity += normal * impulse;
+      }
     }
   }
 }

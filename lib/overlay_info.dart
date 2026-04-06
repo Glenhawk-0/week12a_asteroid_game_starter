@@ -49,9 +49,10 @@ class InfoOverlay extends StatelessWidget {
       ..loadHtmlString(infoText);
 
     return Material(
-      color: Colors.transparent, // Important! Makes background transparent
+      color: Colors.transparent, // Critical!
       child: Center(
         child: Container(
+          color: Color.fromARGB(220, 244, 243, 164),
           width: 350,
           height: 400,
           decoration: BoxDecoration(
@@ -60,15 +61,12 @@ class InfoOverlay extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Expanded(
-                child: WebViewWidget(
-                  controller: webViewController,
-                ),
-              ),
+              Expanded(child: WebViewWidget(controller: webViewController)),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Close (remove info overlay + unpause)
+                  game.overlays.remove('info');
+                  game.paused = false;
                 },
                 child: const Text("Close"),
               ),

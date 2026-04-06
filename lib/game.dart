@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flame/collisions.dart';
+
 import 'asteroid.dart';
 
 ///
@@ -17,7 +19,8 @@ import 'asteroid.dart';
 /// - the game uses TapCallbacks to handle tap events. Nothing happens yet.
 ///
 
-class OverlayTutorial extends FlameGame with TapCallbacks {
+class OverlayTutorial extends FlameGame
+    with TapCallbacks, HasCollisionDetection {
   final BuildContext context;
 
   OverlayTutorial(this.context);
@@ -27,9 +30,7 @@ class OverlayTutorial extends FlameGame with TapCallbacks {
 
   @override
   Future<void> onLoad() async {
-    await images.loadAll([
-      "asteroid.png",
-    ]);
+    await images.loadAll(["asteroid.png"]);
 
     for (int i = 0; i < 10; i++) {
       add(Asteroid());
@@ -39,5 +40,6 @@ class OverlayTutorial extends FlameGame with TapCallbacks {
   @override
   void onTapUp(TapUpEvent event) {
     super.onTapUp(event);
+    // Empty for now - we could add tap handling here
   }
 }

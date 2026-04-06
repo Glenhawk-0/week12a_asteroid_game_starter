@@ -26,27 +26,27 @@ Widget mainOverlay(BuildContext context, game) {
           Expanded(
             child: Text(
               "Score: 0",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 30),
             ),
           ),
           IconButton(
             onPressed: () {
-              // TODO: Pause
+              game.paused = true;
+              game.overlays.add('pause');
             },
             icon: Icon(Icons.pause),
           ),
           IconButton(
             onPressed: () {
-              // TODO: Settings
+              game.paused = true;
+              game.overlays.add('settings');
             },
             icon: Icon(Icons.settings),
           ),
           IconButton(
             onPressed: () {
-              // TODO: Info
+              game.paused = true;
+              game.overlays.add('info');
             },
             icon: Icon(Icons.info),
           ),

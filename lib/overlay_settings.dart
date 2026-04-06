@@ -21,21 +21,59 @@ Widget settingsOverlay(BuildContext context, game) {
         children: [
           const Text(
             "Settings",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 48,
-            ),
+            style: TextStyle(color: Colors.black, fontSize: 48),
           ),
           const SizedBox(height: 20),
 
-          // TODO: Add music volume slider here (Row with music_note Icon + Slider)
+          // Music volume slider
+          Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.music_note),
+              ),
+              Expanded(
+                child: Slider(
+                  value: 100,
+                  min: 0,
+                  max: 100,
+                  divisions: 5,
+                  label: "100",
+                  onChanged: (value) {
+                    // TODO: Connect to actual volume control (next class)
+                  },
+                ),
+              ),
+            ],
+          ),
 
-          // TODO: Add sound effects volume slider here (Row with volume_up Icon + Slider)
+          // Sound effects volume slider
+          Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.volume_up),
+              ),
+              Expanded(
+                child: Slider(
+                  value: 100,
+                  min: 0,
+                  max: 100,
+                  divisions: 5,
+                  label: "100",
+                  onChanged: (value) {
+                    // TODO: Connect to actual volume control (next class)
+                  },
+                ),
+              ),
+            ],
+          ),
 
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              // TODO: Close (remove settings overlay + unpause)
+              game.overlays.remove('settings');
+              game.paused = false;
             },
             child: const Text("Close"),
           ),

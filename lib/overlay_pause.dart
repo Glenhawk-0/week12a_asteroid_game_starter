@@ -20,22 +20,20 @@ Widget pauseOverlay(BuildContext context, game) {
         children: [
           const Text(
             "Game Paused",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 48,
-            ),
+            style: TextStyle(color: Colors.black, fontSize: 48),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              // TODO: Resume (unpause + remove pause overlay)
+              game.paused = false;
+              game.overlays.remove('pause');
             },
             child: const Text("Resume"),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              // TODO: Settings
+              game.overlays.add('settings');
             },
             child: const Text("Settings"),
           ),

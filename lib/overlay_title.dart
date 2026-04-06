@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'game.dart';
 
+///
 ///
 /// Title Overlay
 /// A centered container with title text and two buttons (Start Game, Settings).
@@ -7,7 +9,9 @@ import 'package:flutter/material.dart';
 ///
 
 class OverlayTitle extends StatelessWidget {
-  const OverlayTitle({super.key});
+  const OverlayTitle({super.key, required this.game});
+
+  final game; // Accept any game type (generic/untyped)
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +28,21 @@ class OverlayTitle extends StatelessWidget {
           children: [
             const Text(
               "Overlay Tutorial",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 48,
-              ),
+              style: TextStyle(color: Colors.black, fontSize: 48),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // TODO: Start game
+                game.paused = false;
+                game.overlays.remove('title');
+                game.overlays.add('main'); // Show HUD
               },
               child: const Text("Start Game"),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // TODO: Settings
+                game.overlays.add('settings');
               },
               child: const Text("Settings"),
             ),

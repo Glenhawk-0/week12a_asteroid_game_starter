@@ -8,11 +8,19 @@ import 'overlay_pause.dart';
 import 'game.dart';
 import 'overlay_info.dart';
 import 'overlay_settings.dart';
+import 'package:provider/provider.dart';
+import 'game_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Flame.device.fullScreen(); // Makes game fullscreen
-  runApp(const MainApp());
+  //runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => GameProvider(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

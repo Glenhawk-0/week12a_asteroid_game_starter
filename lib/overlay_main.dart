@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'game_provider.dart';
 
 ///
 /// Main Overlay (HUD)
@@ -14,6 +16,8 @@ import 'package:flutter/material.dart';
 ///
 
 Widget mainOverlay(BuildContext context, game) {
+  // Watch the provider - this widget rebuilds when state changes
+  final gameProvider = context.watch<GameProvider>();
   return Align(
     alignment: Alignment.topCenter,
     child: Container(
@@ -24,8 +28,11 @@ Widget mainOverlay(BuildContext context, game) {
       child: Row(
         children: [
           Expanded(
-            child: Text(
+            child: /* Text(
               "Score: 0",
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),*/ Text(
+              "Score: ${gameProvider.score}",
               style: TextStyle(color: Colors.white, fontSize: 30),
             ),
           ),

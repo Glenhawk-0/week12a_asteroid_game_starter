@@ -50,11 +50,28 @@ class Asteroid extends SpriteComponent
   void update(double dt) {
     super.update(dt);
     position += velocity * dt;
+
+    /*
     if (position.y < 0 || position.y > game.size.y) {
       velocity = Vector2(velocity.x, -velocity.y);
     }
     if (position.x < 0 || position.x > game.size.x) {
       velocity = Vector2(-velocity.x, velocity.y);
+    }
+*/
+
+    if (position.y < 0) {
+      velocity = Vector2(velocity.x, (velocity.y).abs());
+    }
+    if (position.y > game.size.y) {
+      velocity = Vector2(velocity.x, -1 * ((velocity.y).abs()));
+    }
+    //
+    if (position.x < 0) {
+      velocity = Vector2((velocity.x).abs(), velocity.y);
+    }
+    if (position.x > game.size.x) {
+      velocity = Vector2(-1 * ((velocity.x).abs()), velocity.y);
     }
   }
 

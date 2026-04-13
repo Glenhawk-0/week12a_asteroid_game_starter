@@ -23,7 +23,7 @@ import 'game_provider.dart';
 ///
 
 class OverlayTutorial extends FlameGame
-    with TapCallbacks, HasCollisionDetection {
+    with TapCallbacks, HasCollisionDetection, WidgetsBindingObserver {
   final BuildContext context;
   late final GameProvider gameProvider;
 
@@ -61,6 +61,40 @@ class OverlayTutorial extends FlameGame
     super.onTapUp(event);
     // Empty for now - we could add tap handling here
   }*/
+  @override
+  void onAttach() {
+    super.onAttach();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  /*
+@override
+void didChangeAppLifecycleState(AppLifecycleState state) {
+  super.didChangeAppLifecycleState(state);
+  print(state);
+}*/
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        // TODO: Print "Resumed"
+        // TODO: Resume the game engine
+        // TODO: Resume the music player
+        break;
+
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.hidden:
+        // TODO: Print "Paused"
+        // TODO: Pause the game engine
+        // TODO: Pause the music player
+
+        break;
+    }
+  }
 
   @override
   void onTapUp(TapUpEvent event) {
@@ -71,5 +105,17 @@ class OverlayTutorial extends FlameGame
 
     // Play sound effect
     gameProvider.playSfx('shot.wav');
+  }
+
+  @override
+  void onDispose() {
+    // TODO: implement onDispose
+    // Add This to the onDispose (inside)
+    WidgetsBinding.instance.removeObserver(this);
+
+    //existing code, and the super.onDispose() called last!
+    gameProvider.dispose();
+
+    super.onDispose();
   }
 }

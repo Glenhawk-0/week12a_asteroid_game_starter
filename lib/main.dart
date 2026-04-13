@@ -11,6 +11,7 @@ import 'overlay_settings.dart';
 import 'package:provider/provider.dart';
 import 'game_provider.dart';
 import 'highscore_page.dart';
+
 //week 13
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,35 +26,92 @@ void main() async {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  MainApp({super.key});
+
+  int _currentNavScreen = 0;
+
+  final List<Widget> _bottomNavScreens = [
+    const MainGame(),
+    const HighScorePage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: GameWidget(
-          game: OverlayTutorial(context)..paused = true,
-          overlayBuilderMap: {
-            'title': (context, game) {
-              return OverlayTitle(game: game);
-            },
-            'main': (context, game) {
-              return mainOverlay(context, game);
-            },
-            'pause': (context, game) {
-              return pauseOverlay(context, game);
-            },
-            'info': (context, game) {
-              return InfoOverlay(game: game as OverlayTutorial);
-            },
-            'settings': (context, game) {
-              return settingsOverlay(context, game);
-            },
-          },
-          initialActiveOverlays: const ['title'],
+        appBar: AppBar(
+          title: const Text("Flame Demo"),
+          backgroundColor: Colors.red,
+        ),
+
+        //body: const MainGame(),
+        body: IndexedStack(
+          index: _currentNavScreen,
+          children: _bottomNavScreens,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentNavScreen,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star),
+              label: "High Scores",
+            ),
+          ],
+   onTap: (value) {
+  final gameProvider = context.read<GameProvider>();
+
+  setState(() {
+    _currentNavScreen = value;
+    gameProvider.game?.paused = true;       // Stop the game loop
+    gameProvider.game?.overlays.add('pause'); // Show the pause overlay
+  });
+},
         ),
       ),
+    );
+  }
+}
+
+class MainGame extends StatelessWidget {
+  const MainGame({super.key});
+
+  int _currentNavScreen = 0;
+
+  final List<Widget> _bottomNavScreens = [
+    const MainGame(),
+    const HighScorePage(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final gameProvider = context.read<GameProvider>();
+    final game = OverlayTutorial(context)..paused = true;
+    gameProvider.game = game;
+    return GameWidget(
+      //game: OverlayTutorial(context)..paused = true,
+        game: game,
+      overlayBuilderMap: {
+        'title': (context, game) {
+          return OverlayTitle(game: game);
+        },
+        'main': (context, game) {
+          return mainOverlay(context, game);
+        },
+        
+        'pause': (context, game) {
+          return pauseOverlay(context, game);
+        },
+        
+        'info': (context, game) {
+          return InfoOverlay(game: game as OverlayTutorial);
+        },
+        'settings': (context, game) {
+          return settingsOverlay(context, game);
+        },
+      },
+      initialActiveOverlays: const ['title'],
     );
   }
 }

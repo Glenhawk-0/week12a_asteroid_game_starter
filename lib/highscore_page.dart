@@ -10,17 +10,15 @@ class HighscorePage extends StatefulWidget {
 class _HighscorePageState extends State<HighscorePage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
-
     Container(
       width: double.infinity,
-      height:  double.infinity,
+      height: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [Text("High Scores")],
-
       ),
     );
 
+    return const Placeholder();
   }
 }

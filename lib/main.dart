@@ -10,7 +10,7 @@ import 'overlay_info.dart';
 import 'overlay_settings.dart';
 import 'package:provider/provider.dart';
 import 'game_provider.dart';
-
+//week 13
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Flame.device.fullScreen(); // Makes game fullscreen

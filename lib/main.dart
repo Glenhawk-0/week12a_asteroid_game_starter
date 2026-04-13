@@ -10,6 +10,7 @@ import 'overlay_info.dart';
 import 'overlay_settings.dart';
 import 'package:provider/provider.dart';
 import 'game_provider.dart';
+import 'highscore_page.dart';
 //week 13
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
